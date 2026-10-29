@@ -1,0 +1,703 @@
+```html
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FINAL GAMER - Official Guild Test Portal</title>
+    <!-- Tailwind CSS for Styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Font: Orbitron & Rajdhani for Gaming Aesthetic -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800;900&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'brand-dark': '#0b0f19',
+                        'brand-card': '#111827',
+                        'brand-red': '#dc2626',
+                        'brand-gold': '#eab308'
+                    },
+                    fontFamily: {
+                        'gaming': ['Orbitron', 'sans-serif'],
+                        'body': ['Rajdhani', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-brand-dark text-gray-100 font-body min-h-screen flex flex-col selection:bg-red-600 selection:text-white">
+
+    <!-- TOP BAR / HEADER -->
+    <header class="bg-black/80 backdrop-blur-md border-b border-red-900/40 sticky top-0 z-40">
+        <div class="max-w-7xl mx-auto px-4 py-3 flex flex-wrap items-center justify-between gap-4">
+            <!-- Logo & Guild Name -->
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-red-600 to-yellow-500 flex items-center justify-center font-gaming font-black text-white text-lg shadow-lg shadow-red-600/30">
+                    FG
+                </div>
+                <div>
+                    <h1 class="font-gaming font-black text-lg sm:text-xl tracking-wider text-white flex items-center gap-2">
+                        FINAL GAMER <span class="text-xs bg-red-600/20 text-red-400 border border-red-500/30 px-2 py-0.5 rounded-full font-body font-bold" data-i18n="guildBadge">Official Guild</span>
+                    </h1>
+                    <p class="text-[11px] text-gray-400" data-i18n="tagline">Free Fire Sunday Custom & Test Portal (Room 17)</p>
+                </div>
+            </div>
+
+            <!-- Controls: Language & Admin Panel -->
+            <div class="flex items-center gap-3">
+                <!-- Language Switcher -->
+                <div class="flex bg-black/60 border border-gray-800 rounded-lg p-1 relative z-50">
+                    <button type="button" onclick="setLanguage('en')" id="lang-en" class="px-3 py-1.5 text-xs font-bold rounded text-gray-400 hover:text-white transition cursor-pointer">EN</button>
+                    <button type="button" onclick="setLanguage('hi')" id="lang-hi" class="px-3 py-1.5 text-xs font-bold rounded bg-red-600 text-white transition cursor-pointer">हिन्दी</button>
+                    <button type="button" onclick="setLanguage('bn')" id="lang-bn" class="px-3 py-1.5 text-xs font-bold rounded text-gray-400 hover:text-white transition cursor-pointer">বাংলা</button>
+                </div>
+
+                <!-- Admin Login Button -->
+                <button type="button" onclick="openAdminPortal()" class="px-4 py-2 bg-gradient-to-r from-red-600 to-red-700 hover:from-red-500 hover:to-red-600 text-white font-gaming text-xs font-bold rounded-xl shadow-lg shadow-red-600/30 border border-red-500/40 flex items-center gap-2 transition transform active:scale-95 cursor-pointer">
+                    <i class="fa-solid fa-shield-halved"></i>
+                    <span data-i18n="adminBtn">एडमिन पैनल</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- MAIN CONTAINER -->
+    <main class="max-w-7xl mx-auto px-4 py-6 flex-grow w-full space-y-6">
+
+        <!-- STATS & COUNTDOWN HERO SECTION -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
+            <!-- Rules Card -->
+            <div class="bg-brand-card/90 border border-gray-800 rounded-2xl p-5 shadow-xl relative overflow-hidden">
+                <div class="absolute -right-6 -bottom-6 text-red-600/10 font-gaming font-black text-8xl pointer-events-none">
+                    17
+                </div>
+                <h3 class="font-gaming text-sm font-bold text-yellow-400 uppercase flex items-center gap-2 mb-3">
+                    <i class="fa-solid fa-bolt"></i> <span data-i18n="rulesTitle">टेस्ट रूल्स & पॉइंट्स (रूम 17)</span>
+                </h3>
+                <ul class="space-y-2 text-xs text-gray-300">
+                    <li class="flex items-center justify-between bg-black/40 px-3 py-2 rounded-xl border border-gray-800">
+                        <span data-i18n="booyahRule">भुया (Booyah)</span>
+                        <span class="font-gaming font-bold text-emerald-400">+12 Points</span>
+                    </li>
+                    <li class="flex items-center justify-between bg-black/40 px-3 py-2 rounded-xl border border-gray-800">
+                        <span data-i18n="killRule">प्रति किल (Per Kill)</span>
+                        <span class="font-gaming font-bold text-yellow-400">+1 Point</span>
+                    </li>
+                    <li class="flex items-center justify-between bg-black/40 px-3 py-2 rounded-xl border border-gray-800">
+                        <span data-i18n="roundRule">राउंड विन (Round Win)</span>
+                        <span class="font-gaming font-bold text-red-400">+1 Point</span>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Sunday Timer Card -->
+            <div class="bg-gradient-to-br from-brand-card to-red-950/30 border border-red-900/40 rounded-2xl p-5 shadow-xl flex flex-col justify-between">
+                <div>
+                    <h3 class="font-gaming text-sm font-bold text-white uppercase flex items-center gap-2 mb-1">
+                        <i class="fa-solid fa-clock text-red-500"></i> <span data-i18n="timerTitle">रविवार टेस्ट काउंटडाउन</span>
+                    </h3>
+                    <p class="text-xs text-gray-400" data-i18n="timerSub">हर हफ्ते रविवार को शाम को टेस्ट मैच होगा</p>
+                </div>
+                <div id="countdown" class="grid grid-cols-4 gap-2 text-center my-3">
+                    <div class="bg-black/60 p-2 rounded-xl border border-gray-800">
+                        <span id="days" class="font-gaming text-lg font-black text-yellow-400">00</span>
+                        <span class="block text-[9px] text-gray-400 uppercase" data-i18n="days">दिन</span>
+                    </div>
+                    <div class="bg-black/60 p-2 rounded-xl border border-gray-800">
+                        <span id="hours" class="font-gaming text-lg font-black text-yellow-400">00</span>
+                        <span class="block text-[9px] text-gray-400 uppercase" data-i18n="hours">घंटे</span>
+                    </div>
+                    <div class="bg-black/60 p-2 rounded-xl border border-gray-800">
+                        <span id="minutes" class="font-gaming text-lg font-black text-yellow-400">00</span>
+                        <span class="block text-[9px] text-gray-400 uppercase" data-i18n="mins">मिनट</span>
+                    </div>
+                    <div class="bg-black/60 p-2 rounded-xl border border-gray-800">
+                        <span id="seconds" class="font-gaming text-lg font-black text-yellow-400">00</span>
+                        <span class="block text-[9px] text-gray-400 uppercase" data-i18n="secs">सेकंड</span>
+                    </div>
+                </div>
+                <div class="text-[10px] text-center text-gray-400 bg-black/40 py-1.5 rounded-lg border border-gray-800">
+                    <i class="fa-solid fa-hourglass-half text-yellow-500"></i> <span data-i18n="timeLimit">प्रत्येक मैच समय सीमा: 15 मिनट</span>
+                </div>
+            </div>
+
+            <!-- Quick Info -->
+            <div class="bg-brand-card/90 border border-gray-800 rounded-2xl p-5 shadow-xl flex flex-col justify-between">
+                <div>
+                    <h3 class="font-gaming text-sm font-bold text-white uppercase flex items-center gap-2 mb-2">
+                        <i class="fa-solid fa-circle-info text-yellow-400"></i> <span data-i18n="infoTitle">गिल्ड निर्देश</span>
+                    </h3>
+                    <p class="text-xs text-gray-300 leading-relaxed" data-i18n="infoDesc">
+                        सभी सदस्यों को रविवार के टेस्ट में 3 मैच खेलने अनिवार्य हैं। एडमिन पैनल से केवल आप अपने खिलाड़ियों को जोड़ सकते हैं।
+                    </p>
+                </div>
+                <div class="pt-3 border-t border-gray-800 flex items-center justify-between text-xs">
+                    <span class="text-gray-400" data-i18n="totalPlayers">कुल एक्टिव प्लेयर्स:</span>
+                    <span id="totalPlayersCount" class="font-gaming font-bold text-yellow-400">0</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- LEADERBOARD TABLE SECTION -->
+        <div class="bg-brand-card border border-gray-800 rounded-2xl shadow-2xl overflow-hidden">
+            <div class="p-5 border-b border-gray-800 flex flex-wrap items-center justify-between gap-4">
+                <div>
+                    <h2 class="font-gaming text-lg font-extrabold text-white uppercase flex items-center gap-2">
+                        <i class="fa-solid fa-trophy text-yellow-400"></i> <span data-i18n="leaderboardTitle">फाइनल गेमर गिल्ड लीडरबोर्ड</span>
+                    </h2>
+                    <p class="text-xs text-gray-400" data-i18n="leaderboardSub">3 टेस्ट मैचों के आधार पर सर्वश्रेष्ठ खिलाड़ियों की रैंकिंग</p>
+                </div>
+                <!-- Search Filter -->
+                <div class="relative w-full sm:w-64">
+                    <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 text-xs"></i>
+                    <input type="text" id="searchPlayerInput" oninput="renderLeaderboard()" placeholder="प्लेयर का नाम खोजें..." class="w-full bg-black/50 border border-gray-700 rounded-xl pl-9 pr-4 py-2 text-xs text-white focus:outline-none focus:border-red-500">
+                </div>
+            </div>
+
+            <div class="overflow-x-auto">
+                <table class="w-full text-left border-collapse">
+                    <thead>
+                        <tr class="bg-black/60 text-[11px] font-gaming uppercase tracking-wider text-gray-400 border-b border-gray-800">
+                            <th class="py-3 px-4 text-center" data-i18n="thRank">रैंक</th>
+                            <th class="py-3 px-4" data-i18n="thPlayer">प्लेयर का नाम</th>
+                            <th class="py-3 px-4 text-center" data-i18n="thTest1">टेस्ट 1</th>
+                            <th class="py-3 px-4 text-center" data-i18n="thTest2">टेस्ट 2</th>
+                            <th class="py-3 px-4 text-center" data-i18n="thTest3">टेस्ट 3</th>
+                            <th class="py-3 px-4 text-center" data-i18n="thKills">कुल किल</th>
+                            <th class="py-3 px-4 text-center" data-i18n="thBooyah">भुया</th>
+                            <th class="py-3 px-4 text-center text-yellow-400" data-i18n="thTotal">कुल पॉइंट्स</th>
+                        </tr>
+                    </thead>
+                    <tbody id="leaderboardTableBody" class="divide-y divide-gray-800/60 text-xs">
+                        <!-- Dynamic rows will be inserted here -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="bg-black/80 border-t border-gray-800 py-4 text-center text-xs text-gray-500 mt-auto">
+        <p>© 2026 FINAL GAMER Guild. All rights reserved. Designed for Free Fire Esports.</p>
+    </footer>
+
+    <!-- MODAL 1: ADMIN LOGIN MODAL -->
+    <div id="adminLoginModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center hidden p-4">
+        <div class="bg-brand-card border border-red-900/50 rounded-2xl max-w-sm w-full p-6 shadow-2xl relative">
+            <button type="button" onclick="toggleModal('adminLoginModal')" class="absolute top-4 right-4 text-gray-400 hover:text-white text-lg cursor-pointer">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+            <div class="text-center mb-6">
+                <div class="w-12 h-12 rounded-full bg-red-500/20 text-red-500 flex items-center justify-center mx-auto mb-2 text-xl border border-red-500/30">
+                    <i class="fa-solid fa-lock"></i>
+                </div>
+                <h3 class="font-gaming text-lg font-bold text-white uppercase" data-i18n="adminModalTitle">एडमिन पैनल लॉगिन</h3>
+                <p class="text-xs text-gray-400" data-i18n="adminModalSub">केवल फाइनल गेमर लीडर/ऑफिसर के लिए</p>
+            </div>
+
+            <form onsubmit="handleAdminLogin(event)" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-bold text-gray-300 uppercase mb-1" data-i18n="adminPassLabel">पासवर्ड दर्ज करें</label>
+                    <input type="password" id="adminPasswordInput" required placeholder="••••••••" class="w-full bg-black/60 border border-gray-700 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-red-500">
+                    <p class="text-[10px] text-gray-500 mt-1">डिफ़ॉल्ट पासवर्ड: <span class="text-yellow-400 font-mono">fgadmin123</span></p>
+                </div>
+                <button type="submit" class="w-full py-2.5 bg-brand-red hover:bg-red-700 text-white font-gaming font-bold rounded-lg text-xs uppercase shadow-lg shadow-red-600/30 cursor-pointer" data-i18n="loginBtn">
+                    लॉगिन करें
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL 2: ADMIN DASHBOARD / SCORE MANAGER MODAL -->
+    <div id="adminDashboardModal" class="fixed inset-0 bg-black/85 backdrop-blur-md z-50 flex items-center justify-center hidden p-4 overflow-y-auto">
+        <div class="bg-brand-card border border-red-900/60 rounded-2xl max-w-4xl w-full p-6 shadow-2xl relative my-8">
+            <button type="button" onclick="toggleModal('adminDashboardModal')" class="absolute top-4 right-4 text-gray-400 hover:text-white text-lg bg-black/50 p-1.5 rounded-full border border-gray-700 cursor-pointer">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+            <div class="flex flex-wrap items-center justify-between gap-4 mb-6 pb-4 border-b border-gray-800">
+                <div>
+                    <h3 class="font-gaming text-lg font-black text-white uppercase flex items-center gap-2">
+                        <i class="fa-solid fa-gauge-high text-red-500"></i> <span data-i18n="adminDashTitle">फाइनल गेमर एडमिन डैशबोर्ड</span>
+                    </h3>
+                    <p class="text-xs text-gray-400" data-i18n="adminDashSub">प्लेयर्स के स्कोर अपडेट करें और नए प्लेयर्स जोड़ें</p>
+                </div>
+                <button type="button" onclick="openAddPlayerModal()" class="px-3.5 py-2 bg-emerald-600 hover:bg-emerald-500 text-white font-gaming text-xs font-bold rounded-xl shadow-lg shadow-emerald-600/20 flex items-center gap-2 cursor-pointer">
+                    <i class="fa-solid fa-user-plus"></i> <span data-i18n="addNewPlayerBtn">नया प्लेयर जोड़ें</span>
+                </button>
+            </div>
+
+            <!-- Admin Player Table List -->
+            <div class="overflow-x-auto max-h-96">
+                <table class="w-full text-left border-collapse">
+                    <thead>
+                        <tr class="bg-black/60 text-[11px] font-gaming uppercase tracking-wider text-gray-400 border-b border-gray-800">
+                            <th class="py-3 px-3" data-i18n="thPlayer">प्लेयर का नाम</th>
+                            <th class="py-3 px-3 text-center">Test 1 (K/R/B)</th>
+                            <th class="py-3 px-3 text-center">Test 2 (K/R/B)</th>
+                            <th class="py-3 px-3 text-center">Test 3 (K/R/B)</th>
+                            <th class="py-3 px-3 text-center" data-i18n="thActions">एक्शन</th>
+                        </tr>
+                    </thead>
+                    <tbody id="adminPlayerTableBody" class="divide-y divide-gray-800/60 text-xs">
+                        <!-- Admin rows inserted here -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL 3: ADD/EDIT PLAYER MODAL -->
+    <div id="playerEditModal" class="fixed inset-0 bg-black/90 backdrop-blur-md z-50 flex items-center justify-center hidden p-4">
+        <div class="bg-brand-card border border-gray-800 rounded-2xl max-w-md w-full p-6 shadow-2xl relative">
+            <button type="button" onclick="toggleModal('playerEditModal')" class="absolute top-4 right-4 text-gray-400 hover:text-white text-lg cursor-pointer">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+            <h3 id="playerModalTitle" class="font-gaming text-base font-bold text-white uppercase mb-4" data-i18n="editPlayerTitle">प्लेयर स्कोर एडिट करें</h3>
+
+            <form onsubmit="handleSavePlayer(event)" class="space-y-4 text-xs">
+                <input type="hidden" id="editPlayerIndex" value="-1">
+                <div>
+                    <label class="block font-bold text-gray-300 uppercase mb-1" data-i18n="playerNameLabel">प्लेयर का नाम (Free Fire IGN)</label>
+                    <input type="text" id="inputPlayerName" required placeholder="उदा. FG_VIPER" class="w-full bg-black/60 border border-gray-700 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-red-500 font-bold">
+                </div>
+                <div>
+                    <label class="block font-bold text-gray-300 uppercase mb-1">Free Fire UID (यूआईडी)</label>
+                    <input type="text" id="inputPlayerUid" placeholder="उदा. 1234567890" class="w-full bg-black/60 border border-gray-700 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-red-500 font-bold">
+                </div>
+
+                <!-- Test 1 -->
+                <div class="bg-black/40 p-3 rounded-xl border border-gray-800">
+                    <p class="font-gaming font-bold text-yellow-400 mb-2">Test 1 Match Stats</p>
+                    <div class="grid grid-cols-3 gap-2">
+                        <div>
+                            <label class="block text-[10px] text-gray-400 uppercase">Kills</label>
+                            <input type="number" id="t1_kills" min="0" value="0" class="w-full bg-black border border-gray-700 rounded p-1.5 text-white text-center font-bold">
+                        </div>
+                        <div>
+                            <label class="block text-[10px] text-gray-400 uppercase">Rounds</label>
+                            <input type="number" id="t1_rounds" min="0" value="0" class="w-full bg-black border border-gray-700 rounded p-1.5 text-white text-center font-bold">
+                        </div>
+                        <div>
+                            <label class="block text-[10px] text-gray-400 uppercase">Booyah</label>
+                            <input type="number" id="t1_booyah" min="0" max="1" value="0" class="w-full bg-black border border-gray-700 rounded p-1.5 text-white text-center font-bold">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Test 2 -->
+                <div class="bg-black/40 p-3 rounded-xl border border-gray-800">
+                    <p class="font-gaming font-bold text-yellow-400 mb-2">Test 2 Match Stats</p>
+                    <div class="grid grid-cols-3 gap-2">
+                        <div>
+                            <label class="block text-[10px] text-gray-400 uppercase">Kills</label>
+                            <input type="number" id="t2_kills" min="0" value="0" class="w-full bg-black border border-gray-700 rounded p-1.5 text-white text-center font-bold">
+                        </div>
+                        <div>
+                            <label class="block text-[10px] text-gray-400 uppercase">Rounds</label>
+                            <input type="number" id="t2_rounds" min="0" value="0" class="w-full bg-black border border-gray-700 rounded p-1.5 text-white text-center font-bold">
+                        </div>
+                        <div>
+                            <label class="block text-[10px] text-gray-400 uppercase">Booyah</label>
+                            <input type="number" id="t2_booyah" min="0" max="1" value="0" class="w-full bg-black border border-gray-700 rounded p-1.5 text-white text-center font-bold">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Test 3 -->
+                <div class="bg-black/40 p-3 rounded-xl border border-gray-800">
+                    <p class="font-gaming font-bold text-yellow-400 mb-2">Test 3 Match Stats</p>
+                    <div class="grid grid-cols-3 gap-2">
+                        <div>
+                            <label class="block text-[10px] text-gray-400 uppercase">Kills</label>
+                            <input type="number" id="t3_kills" min="0" value="0" class="w-full bg-black border border-gray-700 rounded p-1.5 text-white text-center font-bold">
+                        </div>
+                        <div>
+                            <label class="block text-[10px] text-gray-400 uppercase">Rounds</label>
+                            <input type="number" id="t3_rounds" min="0" value="0" class="w-full bg-black border border-gray-700 rounded p-1.5 text-white text-center font-bold">
+                        </div>
+                        <div>
+                            <label class="block text-[10px] text-gray-400 uppercase">Booyah</label>
+                            <input type="number" id="t3_booyah" min="0" max="1" value="0" class="w-full bg-black border border-gray-700 rounded p-1.5 text-white text-center font-bold">
+                        </div>
+                    </div>
+                </div>
+
+                <button type="submit" class="w-full py-2.5 bg-brand-red hover:bg-red-700 text-white font-gaming font-bold rounded-lg uppercase shadow-lg shadow-red-600/30 cursor-pointer" data-i18n="saveBtn">
+                    डेटा सेव करें
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+        const translations = {
+            en: {
+                guildBadge: "Official Guild",
+                tagline: "Free Fire Sunday Custom & Test Portal (Room 17)",
+                adminBtn: "Admin Panel",
+                rulesTitle: "Test Rules & Points (Room 17)",
+                booyahRule: "Booyah",
+                killRule: "Per Kill",
+                roundRule: "Round Win",
+                timerTitle: "Sunday Test Countdown",
+                timerSub: "Weekly test match every Sunday",
+                days: "Days",
+                hours: "Hours",
+                mins: "Mins",
+                secs: "Secs",
+                timeLimit: "Match Time Limit: 15 Minutes",
+                infoTitle: "Guild Instructions",
+                infoDesc: "All members must play 3 matches in Sunday's test. Add your players directly from the admin panel.",
+                totalPlayers: "Total Active Players:",
+                leaderboardTitle: "FINAL GAMER Guild Leaderboard",
+                leaderboardSub: "Rankings based on 3 test matches",
+                thRank: "Rank",
+                thPlayer: "Player Name",
+                thTest1: "Test 1",
+                thTest2: "Test 2",
+                thTest3: "Test 3",
+                thKills: "Total Kills",
+                thBooyah: "Booyah",
+                thTotal: "Total Pts",
+                adminModalTitle: "Admin Login",
+                adminModalSub: "For Final Gamer Leader/Officer only",
+                adminPassLabel: "Enter Password",
+                loginBtn: "Login",
+                adminDashTitle: "Final Gamer Admin Dashboard",
+                adminDashSub: "Update player scores and add new members",
+                addNewPlayerBtn: "Add New Player",
+                thActions: "Actions",
+                editPlayerTitle: "Edit Player Score",
+                playerNameLabel: "Player Name (Free Fire IGN)",
+                saveBtn: "Save Data"
+            },
+            hi: {
+                guildBadge: "ऑफिसियल गिल्ड",
+                tagline: "फ्री फायर संडे कस्टम और टेस्ट पोर्टल (रूम 17)",
+                adminBtn: "एडमिन पैनल",
+                rulesTitle: "टेस्ट रूल्स & पॉइंट्स (रूम 17)",
+                booyahRule: "भुया (Booyah)",
+                killRule: "प्रति किल (Per Kill)",
+                roundRule: "राउंड विन (Round Win)",
+                timerTitle: "रविवार टेस्ट काउंटडाउन",
+                timerSub: "हर हफ्ते रविवार को शाम को टेस्ट मैच होगा",
+                days: "दिन",
+                hours: "घंटे",
+                mins: "मिनट",
+                secs: "सेकंड",
+                timeLimit: "प्रत्येक मैच समय सीमा: 15 मिनट",
+                infoTitle: "गिल्ड निर्देश",
+                infoDesc: "सभी सदस्यों को रविवार के टेस्ट में 3 मैच खेलने अनिवार्य हैं। एडमिन पैनल से केवल आप अपने खिलाड़ी जोड़ सकते हैं।",
+                totalPlayers: "कुल एक्टिव प्लेयर्स:",
+                leaderboardTitle: "फाइनल गेमर गिल्ड लीडरबोर्ड",
+                leaderboardSub: "3 टेस्ट मैचों के आधार पर सर्वश्रेष्ठ खिलाड़ियों की रैंकिंग",
+                thRank: "रैंक",
+                thPlayer: "प्लेयर का नाम",
+                thTest1: "टेस्ट 1",
+                thTest2: "टेस्ट 2",
+                thTest3: "टेस्ट 3",
+                thKills: "कुल किल",
+                thBooyah: "भुया",
+                thTotal: "कुल पॉइंट्स",
+                adminModalTitle: "एडमिन पैनल लॉगिन",
+                adminModalSub: "केवल फाइनल गेमर लीडर/ऑफिसर के लिए",
+                adminPassLabel: "पासवर्ड दर्ज करें",
+                loginBtn: "लॉगिन करें",
+                adminDashTitle: "फाइनल गेमर एडमिन डैशबोर्ड",
+                adminDashSub: "प्लेयर्स के स्कोर अपडेट करें और नए प्लेयर्स जोड़ें",
+                addNewPlayerBtn: "नया प्लेयर जोड़ें",
+                thActions: "एक्शन",
+                editPlayerTitle: "प्लेयर स्कोर एडिट करें",
+                playerNameLabel: "प्लेयर का नाम (Free Fire IGN)",
+                saveBtn: "डेटा सेव करें"
+            },
+            bn: {
+                guildBadge: "অফিসিয়াল গিল্ড",
+                tagline: "ফ্রি ফায়ার সানডে কাস্টম এবং টেস্ট পোর্টাল (রুম ১৭)",
+                adminBtn: "অ্যাডমিন প্যানেল",
+                rulesTitle: "টেস্ট রুলস এবং পয়েন্টস (রুম ১৭)",
+                booyahRule: "বুয়াহ (Booyah)",
+                killRule: "প্রতি কিল (Per Kill)",
+                roundRule: "রাউন্ড জয় (Round Win)",
+                timerTitle: "রবিবার টেস্ট কাউন্টডাউন",
+                timerSub: "প্রতি সপ্তাহে রবিবার টেস্ট ম্যাচ অনুষ্ঠিত হবে",
+                days: "দিন",
+                hours: "ঘণ্টা",
+                mins: "মিনিট",
+                secs: "সেকেন্ড",
+                timeLimit: "প্রতি ম্যাচের সময়সীমা: ১৫ মিনিট",
+                infoTitle: "গিল্ড নির্দেশিকা",
+                infoDesc: "সকল সদস্যকে রবিবারের টেস্টে ৩টি ম্যাচ খেলতে হবে। অ্যাডমিন প্যানেল থেকে শুধুমাত্র আপনি খেলোয়াড় যোগ করতে পারবেন।",
+                totalPlayers: "মোট সক্রিয় খেলোয়াড়:",
+                leaderboardTitle: "ফাইনাল গেমার গিল্ড লিডারবোর্ড",
+                leaderboardSub: "৩টি টেস্ট ম্যাচের উপর ভিত্তি করে খেলোয়াড়দের র‍্যাঙ্কিং",
+                thRank: "র‍্যাংক",
+                thPlayer: "খেলোয়াড়ের নাম",
+                thTest1: "টেস্ট ১",
+                thTest2: "টেস্ট ২",
+                thTest3: "টেস্ট ৩",
+                thKills: "মোট কিল",
+                thBooyah: "বুয়াহ",
+                thTotal: "মোট পয়েন্ট",
+                adminModalTitle: "অ্যাডমিন প্যানেল লগইন",
+                adminModalSub: "শুধুমাত্র ফাইনাল গেমার লিডার/অফিসারের জন্য",
+                adminPassLabel: "পাসওয়ার্ড লিখুন",
+                loginBtn: "লগইন করুন",
+                adminDashTitle: "ফাইনাল গেমার অ্যাডমিন ড্যাশবোর্ড",
+                adminDashSub: "খেলোয়াড়দের স্কোর আপডেট করুন এবং নতুন খেলোয়াড় যোগ করুন",
+                addNewPlayerBtn: "নতুন খেলোয়াড় যোগ করুন",
+                thActions: "অ্যাকশন",
+                editPlayerTitle: "খেলোয়াড়ের স্কোর সম্পাদনা",
+                playerNameLabel: "খেলোয়াড়ের নাম (Free Fire IGN)",
+                saveBtn: "ডেটা সংরক্ষণ করুন"
+            }
+        };
+
+        let currentLang = 'hi';
+
+        function setLanguage(lang) {
+            currentLang = lang;
+            ['en', 'hi', 'bn'].forEach(l => {
+                const btn = document.getElementById(`lang-${l}`);
+                if (btn) {
+                    if (l === lang) {
+                        btn.className = "px-3 py-1.5 text-xs font-bold rounded bg-red-600 text-white transition cursor-pointer";
+                    } else {
+                        btn.className = "px-3 py-1.5 text-xs font-bold rounded text-gray-400 hover:text-white transition cursor-pointer";
+                    }
+                }
+            });
+
+            const dict = translations[lang] || translations['hi'];
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (dict[key]) {
+                    el.innerText = dict[key];
+                }
+            });
+        }
+
+        let guildPlayers = JSON.parse(localStorage.getItem('fg_guild_players')) || [];
+
+        function savePlayersToStorage() {
+            localStorage.setItem('fg_guild_players', JSON.stringify(guildPlayers));
+        }
+
+        function calculateTestPoints(t) {
+            return (t.booyah * 12) + (t.kills * 1) + (t.rounds * 1);
+        }
+
+        function renderLeaderboard() {
+            const tbody = document.getElementById('leaderboardTableBody');
+            const searchQuery = document.getElementById('searchPlayerInput').value.toLowerCase();
+            tbody.innerHTML = '';
+
+            document.getElementById('totalPlayersCount').innerText = guildPlayers.length;
+
+            if (guildPlayers.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="8" class="text-center py-8 text-gray-500 font-gaming">कोई खिलाड़ी नहीं मिला। कृपया एडमिन पैनल से खिलाड़ी जोड़ें।</td></tr>`;
+                return;
+            }
+
+            const evaluatedPlayers = guildPlayers.map((p, idx) => {
+                const p1 = calculateTestPoints(p.t1);
+                const p2 = calculateTestPoints(p.t2);
+                const p3 = calculateTestPoints(p.t3);
+                const totalPts = p1 + p2 + p3;
+                const totalK = p.t1.kills + p.t2.kills + p.t3.kills;
+                const totalB = p.t1.booyah + p.t2.booyah + p.t3.booyah;
+                return { ...p, originalIndex: idx, p1, p2, p3, totalPts, totalK, totalB };
+            });
+
+            evaluatedPlayers.sort((a, b) => b.totalPts - a.totalPts);
+
+            evaluatedPlayers.forEach((p, rankIndex) => {
+                const rank = rankIndex + 1;
+                if (searchQuery && !p.name.toLowerCase().includes(searchQuery)) return;
+
+                let rankBadge = `<span class="font-gaming font-bold text-gray-400">#${rank}</span>`;
+                if (rank === 1) rankBadge = `<span class="px-2 py-0.5 rounded bg-yellow-500/20 text-yellow-400 font-gaming font-bold text-xs border border-yellow-500/40"><i class="fa-solid fa-crown mr-1"></i>#1</span>`;
+                else if (rank === 2) rankBadge = `<span class="px-2 py-0.5 rounded bg-gray-300/20 text-gray-300 font-gaming font-bold text-xs border border-gray-400/40">#2</span>`;
+                else if (rank === 3) rankBadge = `<span class="px-2 py-0.5 rounded bg-amber-700/20 text-amber-500 font-gaming font-bold text-xs border border-amber-600/40">#3</span>`;
+
+                const row = document.createElement('tr');
+                row.className = "hover:bg-white/5 transition border-b border-gray-800/40";
+                row.innerHTML = `
+                    <td class="py-3 px-4 text-center">${rankBadge}</td>
+                    <td class="py-3 px-4 font-bold text-white">${p.name}</td>
+                    <td class="py-3 px-4 text-center font-gaming text-gray-300">${p.p1} pts</td>
+                    <td class="py-3 px-4 text-center font-gaming text-gray-300">${p.p2} pts</td>
+                    <td class="py-3 px-4 text-center font-gaming text-gray-300">${p.p3} pts</td>
+                    <td class="py-3 px-4 text-center text-red-400 font-bold">${p.totalK}</td>
+                    <td class="py-3 px-4 text-center text-emerald-400 font-bold">${p.totalB}</td>
+                    <td class="py-3 px-4 text-center font-gaming font-black text-yellow-400 text-sm">${p.totalPts}</td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        function openAdminPortal() {
+            const loginModal = document.getElementById('adminLoginModal');
+            if (loginModal) {
+                loginModal.classList.remove('hidden');
+            }
+        }
+
+        function handleAdminLogin(event) {
+            event.preventDefault();
+            const pwd = document.getElementById('adminPasswordInput').value.trim();
+            if (pwd === "fgadmin123" || pwd === "FG@123") {
+                toggleModal('adminLoginModal');
+                renderAdminPlayerTable();
+                toggleModal('adminDashboardModal');
+                document.getElementById('adminPasswordInput').value = '';
+            } else {
+                alert("गलत पासवर्ड! डिफ़ॉल्ट पासवर्ड 'fgadmin123' है।");
+            }
+        }
+
+        function renderAdminPlayerTable() {
+            const tbody = document.getElementById('adminPlayerTableBody');
+            tbody.innerHTML = '';
+
+            if (guildPlayers.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="5" class="text-center py-6 text-gray-500">कोई खिलाड़ी नहीं है। ऊपर 'नया प्लेयर जोड़ें' पर क्लिक करें।</td></tr>`;
+                return;
+            }
+
+            guildPlayers.forEach((p, idx) => {
+                const row = document.createElement('tr');
+                row.className = "hover:bg-white/5 transition border-b border-gray-800/40";
+                row.innerHTML = `
+                    <td class="py-3 px-3 font-bold text-white">${p.name}</td>
+                    <td class="py-3 px-3 text-center text-gray-300">${p.t1.kills}k / ${p.t1.rounds}r / ${p.t1.booyah}b</td>
+                    <td class="py-3 px-3 text-center text-gray-300">${p.t2.kills}k / ${p.t2.rounds}r / ${p.t2.booyah}b</td>
+                    <td class="py-3 px-3 text-center text-gray-300">${p.t3.kills}k / ${p.t3.rounds}r / ${p.t3.booyah}b</td>
+                    <td class="py-3 px-3 text-center space-x-2">
+                        <button type="button" onclick="openEditPlayerModal(${idx})" class="px-2 py-1 bg-blue-600/20 text-blue-400 hover:bg-blue-600/40 rounded border border-blue-500/30 font-bold cursor-pointer"><i class="fa-solid fa-pen"></i></button>
+                        <button type="button" onclick="deletePlayer(${idx})" class="px-2 py-1 bg-red-600/20 text-red-400 hover:bg-red-600/40 rounded border border-red-500/30 font-bold cursor-pointer"><i class="fa-solid fa-trash"></i></button>
+                    </td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        function openAddPlayerModal() {
+            document.getElementById('editPlayerIndex').value = "-1";
+            document.getElementById('inputPlayerName').value = "";
+            document.getElementById('inputPlayerUid').value = "";
+            document.getElementById('t1_kills').value = "0";
+            document.getElementById('t1_rounds').value = "0";
+            document.getElementById('t1_booyah').value = "0";
+            document.getElementById('t2_kills').value = "0";
+            document.getElementById('t2_rounds').value = "0";
+            document.getElementById('t2_booyah').value = "0";
+            document.getElementById('t3_kills').value = "0";
+            document.getElementById('t3_rounds').value = "0";
+            document.getElementById('t3_booyah').value = "0";
+            toggleModal('playerEditModal');
+        }
+
+        function openEditPlayerModal(idx) {
+            const p = guildPlayers[idx];
+            document.getElementById('editPlayerIndex').value = idx;
+            document.getElementById('inputPlayerName').value = p.name;
+            document.getElementById('inputPlayerUid').value = p.uid || "";
+            document.getElementById('t1_kills').value = p.t1.kills;
+            document.getElementById('t1_rounds').value = p.t1.rounds;
+            document.getElementById('t1_booyah').value = p.t1.booyah;
+            document.getElementById('t2_kills').value = p.t2.kills;
+            document.getElementById('t2_rounds').value = p.t2.rounds;
+            document.getElementById('t2_booyah').value = p.t2.booyah;
+            document.getElementById('t3_kills').value = p.t3.kills;
+            document.getElementById('t3_rounds').value = p.t3.rounds;
+            document.getElementById('t3_booyah').value = p.t3.booyah;
+            toggleModal('playerEditModal');
+        }
+
+        function handleSavePlayer(event) {
+            event.preventDefault();
+            const idx = parseInt(document.getElementById('editPlayerIndex').value);
+            const name = document.getElementById('inputPlayerName').value.trim();
+            const uid = document.getElementById('inputPlayerUid').value.trim();
+
+            const playerData = {
+                name: name,
+                uid: uid || "N/A",
+                t1: { kills: parseInt(document.getElementById('t1_kills').value) || 0, rounds: parseInt(document.getElementById('t1_rounds').value) || 0, booyah: parseInt(document.getElementById('t1_booyah').value) || 0 },
+                t2: { kills: parseInt(document.getElementById('t2_kills').value) || 0, rounds: parseInt(document.getElementById('t2_rounds').value) || 0, booyah: parseInt(document.getElementById('t2_booyah').value) || 0 },
+                t3: { kills: parseInt(document.getElementById('t3_kills').value) || 0, rounds: parseInt(document.getElementById('t3_rounds').value) || 0, booyah: parseInt(document.getElementById('t3_booyah').value) || 0 }
+            };
+
+            if (idx === -1) {
+                guildPlayers.push(playerData);
+            } else {
+                guildPlayers[idx] = playerData;
+            }
+
+            savePlayersToStorage();
+            toggleModal('playerEditModal');
+            renderAdminPlayerTable();
+            renderLeaderboard();
+        }
+
+        function deletePlayer(idx) {
+            if (confirm("क्या आप वाकई इस खिलाड़ी को डिलीट करना चाहते हैं?")) {
+                guildPlayers.splice(idx, 1);
+                savePlayersToStorage();
+                renderAdminPlayerTable();
+                renderLeaderboard();
+            }
+        }
+
+        function toggleModal(modalId) {
+            const modal = document.getElementById(modalId);
+            if (modal) {
+                modal.classList.toggle('hidden');
+            }
+        }
+
+        function updateCountdown() {
+            const now = new Date();
+            const nextSunday = new Date();
+            nextSunday.setDate(now.getDate() + (7 - now.getDay()) % 7);
+            nextSunday.setHours(18, 0, 0, 0);
+
+            if (now > nextSunday) {
+                nextSunday.setDate(nextSunday.getDate() + 7);
+            }
+
+            const diff = nextSunday - now;
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+            const minutes = Math.floor((diff / 1000 / 60) % 60);
+            const seconds = Math.floor((diff / 1000) % 60);
+
+            document.getElementById('days').innerText = String(days).padStart(2, '0');
+            document.getElementById('hours').innerText = String(hours).padStart(2, '0');
+            document.getElementById('minutes').innerText = String(minutes).padStart(2, '0');
+            document.getElementById('seconds').innerText = String(seconds).padStart(2, '0');
+        }
+
+        setInterval(updateCountdown, 1000);
+
+        window.onload = function() {
+            setLanguage('hi');
+            updateCountdown();
+            renderLeaderboard();
+        };
+    </script>
+</body>
+</html>
+```
